@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP Development Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="js/auth.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">
+                <h2>MP Development</h2>
+                <p style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Web By A Alfin</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" data-section="dashboard">
+                        <i>📊</i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="database">
+                        <i>👥</i> Database MP
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="end-contract">
+                        <i>📋</i> End Contract
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="recruitment">
+                        <i>🎯</i> Recruitment
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="education">
+                        <i>🎓</i> Edukasi
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="education-schedule">
+                        <i>📅</i> Jadwal Edukasi
+                    </a>
+                </li>
+                <li class="nav-item" style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 20px; padding-top: 20px;">
+                    <a href="#" class="nav-link" data-section="settings">
+                        <i>⚙️</i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h1 id="page-title">Dashboard</h1>
+                <div class="user-info">
+                    <span>Welcome, Admin</span>
+                    <div class="user-avatar">A</div>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section">
+                <div class="dashboard-grid">
+                    <div class="stat-card stat-card-blue">
+                        <h3>👥 Total Man Power Aktif</h3>
+                        <div class="number">0</div>
+                        <div class="change">Belum ada data</div>
+                    </div>
+                    <div class="stat-card stat-card-green">
+                        <h3>✅ MP End Contract</h3>
+                        <div class="number">0</div>
+                        <div class="change">Bulan Ini</div>
+                    </div>
+                    <div class="stat-card stat-card-orange">
+                        <h3>📋 MP Recruitment</h3>
+                        <div class="number">0</div>
+                        <div class="change">Bulan Ini</div>
+                    </div>
+                    <div class="stat-card stat-card-purple">
+                        <h3>🎯 MP Edukasi</h3>
+                        <div class="number" id="educationStatNumber">0</div>
+                        <div class="change" id="educationStatChange">Bulan Ini</div>
+                    </div>
+                </div>
+
+                <!-- Charts Grid -->
+                <div class="charts-grid">
+                    <!-- Grafik 1: Monitoring MP End Contract - Comp Assy -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">📊 MP End Contract - Comp Assy</h3>
+                            <div class="chart-filter">
+                                <label for="endContractCompAssyYearFilter">📅 Filter Tahun:</label>
+                                <!-- Update all year filter onchange events -->
+                                <select id="endContractCompAssyYearFilter" onchange="syncYearFilters(this.value)">
+                                    <!-- Options will be populated by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="endContractCompAssyChart"></canvas>
+                    </div>
+                    
+                    <!-- Grafik 2: Monitoring MP End Contract - Comp WClutch -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">📊 MP End Contract - Comp WClutch</h3>
+                            <div class="chart-filter">
+                                <label for="endContractCompWClutchYearFilter">📅 Filter Tahun:</label>
+                                <select id="endContractCompWClutchYearFilter" onchange="syncYearFilters(this.value)">
+                                    <!-- Options will be populated by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="endContractCompWClutchChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <!-- Grafik 3: Monitoring MP Edukasi - Comp Assy -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">🎓 MP Edukasi - Comp Assy</h3>
+                            <div class="chart-filter">
+                                <label for="educationCompAssyYearFilter">📅 Filter Tahun:</label>
+                                <select id="educationCompAssyYearFilter" onchange="updateEducationCompAssyChart()">
+                                    <!-- Options will be populated by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="educationCompAssyChart"></canvas>
+                    </div>
+                    
+                    <!-- Grafik 4: Monitoring MP Edukasi - Comp WClutch -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">🎓 MP Edukasi - Comp WClutch</h3>
+                            <div class="chart-filter">
+                                <label for="educationCompWClutchYearFilter">📅 Filter Tahun:</label>
+                                <select id="educationCompWClutchYearFilter" onchange="updateEducationCompWClutchChart()">
+                                    <!-- Options will be populated by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="educationCompWClutchChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart Grid for Daily Education Attendance -->
+                <div class="charts-grid">
+                    <!-- HAPUS: Grafik 5: Monitoring Jadwal & Kehadiran Edukasi Harian - Comp Assy -->
+                    <!-- HAPUS: Grafik 6: Monitoring Jadwal & Kehadiran Edukasi Harian - Comp WClutch -->
+                </div>
+
+                <!-- Modifikasi chart yang sudah ada (lines 209-243) -->
+                <div class="charts-grid-single">
+                    <div class="chart-card chart-card-wide">
+                        <div class="chart-header">
+                            <h3 class="chart-title">📈 Monitoring Jadwal & Kehadiran Edukasi Harian</h3>
+                            <div class="chart-filter">
+                                <label for="attendanceSectionFilter">🏭 Section:</label>
+                                <select id="attendanceSectionFilter" onchange="updateAttendanceChart()">
+                                    <option value="comp-assy">Comp Assy</option>
+                                    <option value="comp-wclutch">Comp WClutch</option>
+                                </select>
+                                <label for="attendanceMonthFilter">📅 Filter Bulan:</label>
+                                <select id="attendanceMonthFilter" onchange="updateAttendanceChart()">
+                                    <option value="0">Januari</option>
+                                    <option value="1">Februari</option>
+                                    <option value="2">Maret</option>
+                                    <option value="3">April</option>
+                                    <option value="4">Mei</option>
+                                    <option value="5">Juni</option>
+                                    <option value="6">Juli</option>
+                                    <option value="7">Agustus</option>
+                                    <option value="8">September</option>
+                                    <option value="9">Oktober</option>
+                                    <option value="10">November</option>
+                                    <option value="11">Desember</option>
+                                </select>
+                                <label for="attendanceYearFilter">📅 Tahun:</label>
+                                <select id="attendanceYearFilter" onchange="updateAttendanceChart()">
+                                    <!-- Options will be populated by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2>Selamat Datang di MP Development System</h2>
+                    </div>
+                    <div class="table-container">
+                        <div style="text-align: center; padding: 40px; color: #7f8c8d;">
+                            <div style="font-size: 64px; margin-bottom: 20px;">🏭</div>
+                            <h3 style="color: #2c3e50; margin-bottom: 10px;">Sistem Manajemen Manpower</h3>
+                            <p style="margin-bottom: 20px;">Kelola data karyawan, recruitment, kontrak, dan program edukasi dengan mudah.</p>
+                            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                                <button class="btn btn-primary" onclick="document.querySelector('[data-section=database]').click()">
+                                    <span>👥</span> Kelola Karyawan
+                                </button>
+                                <button class="btn btn-success" onclick="document.querySelector('[data-section=recruitment]').click()">
+                                    <span>🎯</span> Recruitment
+                                </button>
+                                <button class="btn btn-warning" onclick="document.querySelector('[data-section=education]').click()">
+                                    <span>🎓</span> Program Edukasi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Database MP Section -->
+            <section id="database-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2>👥 Database Manpower</h2>
+                </div>
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="openModal('add')">
+                                <span>+</span> Tambah Karyawan
+                            </button>
+                            <button class="btn btn-success" onclick="exportToCSV()">
+                                <span>📊</span> Export CSV
+                            </button>
+                        </div>
+                        <div class="search-box">
+                            <input type="text" placeholder="Cari karyawan..." id="searchInput">
+                        </div>
+                    </div>
+                    <table id="employeeTable">
+                        <thead>
+                            <tr>
+                                <th>NPK</th>
+                                <th>Nama</th>
+                                <th>Gender</th>
+                                <th>Section</th>
+                                <th>Line</th>
+                                <th>Leader</th>
+                                <th>Date In</th>
+                                <th>Status</th>
+                                <th>Tipe</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeeTableBody">
+                            <!-- Data will be loaded from localStorage -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- End Contract Section -->
+            <section id="end-contract-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2>📋 Data MP End Contract</h2>
+                </div>
+                <div class="table-container">
+                    <div class="table-header">
+                        <button class="btn btn-primary" onclick="openModal('end-contract')">
+                            <span>+</span> Tambah End Contract
+                        </button>
+                        <div class="search-box">
+                            <input type="text" placeholder="Cari data end contract...">
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>NPK</th>
+                                <th>Nama</th>
+                                <th>Gender</th>
+                                <th>Section</th>
+                                <th>Line</th>
+                                <th>Leader</th>
+                                <th>Date In</th>
+                                <th>Durasi</th>
+                                <th>Date Out</th>
+                                <th>Alasan</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be loaded from localStorage -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+<!-- Recruitment Section -->
+<section id="recruitment-section" class="content-section hidden">
+    <div class="section-header">
+        <h2>Data MP Recruitment</h2>
+    </div>
+    <div class="table-container">
+        <div class="table-header">
+            <button class="btn btn-primary" onclick="openModal('recruitment')">
+                <span>+</span> Tambah Kandidat
+            </button>
+            <div class="search-box">
+                <input type="text" placeholder="Cari kandidat...">
+            </div>
+        </div>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th rowspan="2">No</th>
+                    <th colspan="8" style="background-color: #3498db; color: white;">Data dari Database MP</th>
+                    <th colspan="3" style="background-color: #e67e22; color: white;">Data dari MP End</th>
+                    <th rowspan="2">Actions</th>
+                </tr>
+                <tr>
+                    <th style="background-color: #f0f8ff;">NPK</th>
+                    <th style="background-color: #f0f8ff;">Nama</th>
+                    <th style="background-color: #f0f8ff;">Gender</th>
+                    <th style="background-color: #f0f8ff;">Section</th>
+                    <th style="background-color: #f0f8ff;">Line</th>
+                    <th style="background-color: #f0f8ff;">Leader</th>
+                    <th style="background-color: #f0f8ff;">Date In</th>
+                    <th style="background-color: #f0f8ff;">Rekomendasi</th>
+                    <th style="background-color: #fff8dc;">NPK</th>
+                    <th style="background-color: #fff8dc;">Nama</th>
+                    <th style="background-color: #fff8dc;">Date Out</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be loaded by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</section>
+
+            <!-- Education Section -->
+            <section id="education-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2>🎓 Data MP Edukasi</h2>
+                    <div class="education-filter">
+                        <label for="educationTypeFilter">📋 Filter Program:</label>
+                        <select id="educationTypeFilter" onchange="filterEducationData()">
+                            <option value="all">Semua Program</option>
+                            <option value="new-mp">New MP</option>
+                            <option value="refresh-mp">Refresh MP</option>
+                            <option value="skill-up-mp">Skill Up MP</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div class="table-header">
+                        <button class="btn btn-primary" onclick="openModal('education')">
+                            <span>+</span> Tambah Program Edukasi
+                        </button>
+                        <div class="search-box">
+                            <input type="text" placeholder="Cari program edukasi...">
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NPK</th>
+                                <th>Name</th>
+                                <th>Section</th>
+                                <th>Line</th>
+                                <th>Leader</th>
+                                <th>Category</th>
+                                <th>Process</th>
+                                <th>Date Education</th>
+                                <th>Date Planning</th>
+                                <th>Raport</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="educationTableBody">
+                            <!-- Data will be loaded from localStorage -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Education Schedule Section -->
+            <section id="education-schedule-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2>📅 Jadwal Edukasi Harian</h2>
+                    <div class="education-filter">
+                        <label for="scheduleDateFilter">📅 Filter Tanggal:</label>
+                        <input type="date" id="scheduleDateFilter" onchange="filterEducationScheduleByDate()">
+                        <button class="btn btn-secondary" onclick="clearDateFilter()">Clear</button>
+                        <label for="scheduleMonthYearFilter">📅 Filter Bulan:</label>
+                        <select id="scheduleMonthYearFilter" onchange="filterEducationSchedule()">
+                            <option value="all">Semua Periode</option>
+                            <!-- Options will be populated by JavaScript (e.g., Mei-25, Jun-25) -->
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="quick-filters">
+                            <button class="btn btn-sm btn-info" onclick="setQuickDateFilter(0)">Hari Ini</button>
+                            <button class="btn btn-sm btn-warning" onclick="setQuickDateFilter(1)">Besok</button>
+                            <button class="btn btn-sm btn-secondary" onclick="setQuickDateFilter(7)">Minggu Depan</button>
+                        </div>
+                        <div class="search-box">
+                            <input type="text" id="scheduleSearchInput" placeholder="Cari jadwal edukasi..." onkeyup="searchEducationSchedule()">
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NPK</th>
+                                <th>Name</th>
+                                <th>Section</th>
+                                <th>Line</th>
+                                <th>Leader</th>
+                                <th>Category</th>
+                                <th>Proses</th>
+                                <th>Date Edukasi</th>
+                                <th>Status</th>
+                                <th>Note</th>
+                            </tr>
+                        </thead>
+                        <tbody id="educationScheduleTableBody">
+                            <!-- Data will be loaded from localStorage -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2>Pengaturan Sistem</h2>
+                </div>
+                <div class="table-container">
+                    <div class="settings-grid">
+                        <!-- Data Management -->
+                        <div class="settings-card">
+                            <h3>📂 Data Management</h3>
+                            <p>Kelola backup dan restore data sistem</p>
+                            <div class="settings-actions">
+                                <button class="btn btn-primary" onclick="exportAllData()">
+                                    <span>💾</span> Backup Semua Data
+                                </button>
+                                <label class="btn btn-success" for="import-file">
+                                    <span>📁</span> Restore Data
+                                    <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importData(event)">
+                                </label>
+                                <button class="btn btn-warning" onclick="exportToCSV()">
+                                    <span>📊</span> Export CSV
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Storage Info -->
+                        <div class="settings-card">
+                            <h3>💿 Storage Information</h3>
+                            <p>Informasi penggunaan localStorage browser</p>
+                            <div class="storage-info" id="storage-info">
+                                <div class="info-item">
+                                    <span class="info-label">Total Karyawan:</span>
+                                    <span class="info-value" id="total-employees">0</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Total Records:</span>
+                                    <span class="info-value" id="total-records">0</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Storage Used:</span>
+                                    <span class="info-value" id="storage-used">0 KB</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="updateStorageInfo()">
+                                <span>🔄</span> Refresh Info
+                            </button>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="settings-card">
+                            <h3>⚡ Quick Actions</h3>
+                            <p>Aksi cepat untuk produktivitas</p>
+                            <div class="settings-actions">
+                                <button class="btn btn-primary" onclick="openModal('add')">
+                                    <span>👥</span> Tambah Karyawan
+                                </button>
+                                <button class="btn btn-success" onclick="openModal('recruitment')">
+                                    <span>🎯</span> Tambah Kandidat
+                                </button>
+                                <button class="btn btn-warning" onclick="openModal('education')">
+                                    <span>🎓</span> Tambah Program
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Keyboard Shortcuts -->
+                        <div class="settings-card">
+                            <h3>⌨️ Keyboard Shortcuts</h3>
+                            <div class="shortcuts-list">
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl + N</kbd>
+                                    <span>Tambah Karyawan Baru</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl + E</kbd>
+                                    <span>Export CSV</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl + B</kbd>
+                                    <span>Backup Data</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl + S</kbd>
+                                    <span>Simpan Form (dalam modal)</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Escape</kbd>
+                                    <span>Tutup Modal</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- System Info -->
+                        <div class="settings-card">
+                            <h3>ℹ️ System Information</h3>
+                            <div class="storage-info">
+                                <div class="info-item">
+                                    <span class="info-label">Version:</span>
+                                    <span class="info-value">1.0.0</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Storage Type:</span>
+                                    <span class="info-value">localStorage</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Browser:</span>
+                                    <span class="info-value" id="browser-info">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Danger Zone -->
+                        <div class="settings-card danger-zone">
+                            <h3>⚠️ Danger Zone</h3>
+                            <p>Area berbahaya - gunakan dengan hati-hati!</p>
+                            <div class="settings-actions">
+                                <button class="btn btn-danger" onclick="clearAllData()">
+                                    <span>🗑️</span> Reset Semua Data
+                                </button>
+                            </div>
+                            <small style="color: #e74c3c; display: block; margin-top: 10px;">
+                                ⚠️ Tindakan ini tidak dapat dibatalkan!
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Universal Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Form Input</h3>
+                <button class="close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Form content will be dynamically generated -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="saveData()">
+                    <span>💾</span> Simpan
+                </button>
+                <button class="btn" onclick="closeModal()" style="background: #95a5a6; color: white;">
+                    <span>❌</span> Batal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>MP Development Digital by A Alfin 2025</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Set browser info
+        document.getElementById('browser-info').textContent = navigator.userAgent.split(' ').pop();
+    </script>
+</body>
+</html>
