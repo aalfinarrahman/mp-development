@@ -6,15 +6,24 @@
     <title>MP Development Management System</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <!-- Comment atau hapus baris ini: -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script> -->
     <script src="js/auth.js"></script>
-</head>
+    <head>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        <!-- or use a PNG file -->
+        <link rel="icon" type="image/png" href="assets/icons/factory-icon.png">
+        <!-- atau -->
+        <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+    </head>
+</body>
 <body>
     <div class="container">
         <!-- Sidebar -->
         <nav class="sidebar">
             <div class="logo">
-                <h2>MP Development</h2>
-                <p style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Web By A Alfin</p>
+                <h3>MP Development Management System</h3>
+                <p style="font-size: 15x; opacity: 0.8; margin-top: 5px;">Comp Assy & Comp WClutch</p>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
@@ -47,6 +56,16 @@
                         <i>📅</i> Jadwal Edukasi
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="mapping">
+                        <i>🗺️</i> Mapping MP
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="skill-matrix">
+                        <i>📊</i> Skill Matriks
+                    </a>
+                </li>
                 <li class="nav-item" style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 20px; padding-top: 20px;">
                     <a href="#" class="nav-link" data-section="settings">
                         <i>⚙️</i> Settings
@@ -67,156 +86,150 @@
 
             <!-- Dashboard Section -->
             <section id="dashboard-section" class="content-section">
+                <!-- Enhanced Stats Cards - langsung tanpa welcome banner -->
                 <div class="dashboard-grid">
                     <div class="stat-card stat-card-blue">
-                        <h3>👥 Total Man Power Aktif</h3>
-                        <div class="number">0</div>
-                        <div class="change">Belum ada data</div>
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-content">
+                            <h3>Total Man Power Aktif</h3>
+                            <div class="number">0</div>
+                            <div class="change">Belum ada data</div>
+                        </div>
                     </div>
                     <div class="stat-card stat-card-green">
-                        <h3>✅ MP End Contract</h3>
-                        <div class="number">0</div>
-                        <div class="change">Bulan Ini</div>
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-content">
+                            <h3>MP End Contract</h3>
+                            <div class="number">0</div>
+                            <div class="change">Bulan Ini</div>
+                        </div>
                     </div>
                     <div class="stat-card stat-card-orange">
-                        <h3>📋 MP Recruitment</h3>
-                        <div class="number">0</div>
-                        <div class="change">Bulan Ini</div>
+                        <div class="stat-icon">📋</div>
+                        <div class="stat-content">
+                            <h3>MP Recruitment</h3>
+                            <div class="number">0</div>
+                            <div class="change">Bulan Ini</div>
+                        </div>
                     </div>
                     <div class="stat-card stat-card-purple">
-                        <h3>🎯 MP Edukasi</h3>
-                        <div class="number" id="educationStatNumber">0</div>
-                        <div class="change" id="educationStatChange">Bulan Ini</div>
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-content">
+                            <h3>MP Edukasi</h3>
+                            <div class="number" id="educationStatNumber">0</div>
+                            <div class="change" id="educationStatChange">Bulan Ini</div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Charts Grid -->
-                <div class="charts-grid">
-                    <!-- Grafik 1: Monitoring MP End Contract - Comp Assy -->
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3 class="chart-title">📊 MP End Contract - Comp Assy</h3>
-                            <div class="chart-filter">
-                                <label for="endContractCompAssyYearFilter">📅 Filter Tahun:</label>
-                                <!-- Update all year filter onchange events -->
-                                <select id="endContractCompAssyYearFilter" onchange="syncYearFilters(this.value)">
-                                    <!-- Options will be populated by JavaScript -->
-                                </select>
+                <!-- Charts Grid dengan layout yang lebih baik -->
+                <div class="charts-container">
+                    <!-- End Contract Charts -->
+                    <div class="chart-section">
+                        <h2 class="section-title">📊 Monitoring MP End Contract</h2>
+                        <div class="charts-grid">
+                            <!-- Grafik 1: MP End Contract - Comp Assy -->
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <h3 class="chart-title">📊 MP End Contract - Comp Assy</h3>
+                                    <div class="chart-filter">
+                                        <label for="endContractCompAssyYearFilter">📅 Filter Tahun:</label>
+                                        <select id="endContractCompAssyYearFilter" onchange="updateEndContractCompAssyChart()">
+                                            <!-- Options will be populated by JavaScript -->
+                                        </select>
+                                    </div>
+                                </div>
+                                <canvas id="endContractCompAssyChart"></canvas>
+                            </div>
+                            
+                            <!-- Grafik 2:  MP End Contract - Comp WClutch -->
+                            <div class="chart-card">
+                                <div class="chart-header">
+                                    <h3 class="chart-title">📊  MP End Contract - Comp WClutch</h3>
+                                    <div class="chart-filter">
+                                        <label for="endContractCompWClutchYearFilter">📅 Filter Tahun:</label>
+                                        <select id="endContractCompWClutchYearFilter" onchange="updateEndContractCompWClutchChart()">
+                                            <!-- Options will be populated by JavaScript -->
+                                        </select>
+                                    </div>
+                                </div>
+                                <canvas id="endContractCompWClutchChart"></canvas>
                             </div>
                         </div>
-                        <canvas id="endContractCompAssyChart"></canvas>
-                    </div>
-                    
-                    <!-- Grafik 2: Monitoring MP End Contract - Comp WClutch -->
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3 class="chart-title">📊 MP End Contract - Comp WClutch</h3>
-                            <div class="chart-filter">
-                                <label for="endContractCompWClutchYearFilter">📅 Filter Tahun:</label>
-                                <select id="endContractCompWClutchYearFilter" onchange="syncYearFilters(this.value)">
-                                    <!-- Options will be populated by JavaScript -->
-                                </select>
-                            </div>
+                        
+                        <!-- Education Charts -->
+                        <div class="chart-section">
+                            <h2 class="section-title">🎓 Monitoring MP Edukasi</h2>
+                            <div class="charts-grid">
+                                <!-- Grafik 3: MP Edukasi - Comp Assy -->
+                                <div class="chart-card">
+                                    <div class="chart-header">
+                                        <h3 class="chart-title">🎓 MP Edukasi - Comp Assy</h3>
+                                        <div class="chart-filter">
+                                            <label for="educationCompAssyYearFilter">📅 Filter Tahun:</label>
+                                            <select id="educationCompAssyYearFilter" onchange="updateEducationCompAssyChart()">
+                                                <!-- Options will be populated by JavaScript -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <canvas id="educationCompAssyChart"></canvas>
+                                </div>
+                                
+                                <!-- Grafik 4: MP Edukasi - Comp WClutch -->
+                                <div class="chart-card">
+                                    <div class="chart-header">
+                                        <h3 class="chart-title">🎓 MP Edukasi - Comp WClutch</h3>
+                                        <div class="chart-filter">
+                                            <label for="educationCompWClutchYearFilter">📅 Filter Tahun:</label>
+                                            <select id="educationCompWClutchYearFilter" onchange="updateEducationCompWClutchChart()">
+                                                <!-- Options will be populated by JavaScript -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <canvas id="educationCompWClutchChart"></canvas>
+                                </div>
                         </div>
-                        <canvas id="endContractCompWClutchChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="charts-grid">
-                    <!-- Grafik 3: Monitoring MP Edukasi - Comp Assy -->
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3 class="chart-title">🎓 MP Edukasi - Comp Assy</h3>
-                            <div class="chart-filter">
-                                <label for="educationCompAssyYearFilter">📅 Filter Tahun:</label>
-                                <select id="educationCompAssyYearFilter" onchange="updateEducationCompAssyChart()">
-                                    <!-- Options will be populated by JavaScript -->
-                                </select>
-                            </div>
-                        </div>
-                        <canvas id="educationCompAssyChart"></canvas>
-                    </div>
-                    
-                    <!-- Grafik 4: Monitoring MP Edukasi - Comp WClutch -->
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3 class="chart-title">🎓 MP Edukasi - Comp WClutch</h3>
-                            <div class="chart-filter">
-                                <label for="educationCompWClutchYearFilter">📅 Filter Tahun:</label>
-                                <select id="educationCompWClutchYearFilter" onchange="updateEducationCompWClutchChart()">
-                                    <!-- Options will be populated by JavaScript -->
-                                </select>
-                            </div>
-                        </div>
-                        <canvas id="educationCompWClutchChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Chart Grid for Daily Education Attendance -->
-                <div class="charts-grid">
-                    <!-- HAPUS: Grafik 5: Monitoring Jadwal & Kehadiran Edukasi Harian - Comp Assy -->
-                    <!-- HAPUS: Grafik 6: Monitoring Jadwal & Kehadiran Edukasi Harian - Comp WClutch -->
-                </div>
-
-                <!-- Modifikasi chart yang sudah ada (lines 209-243) -->
-                <div class="charts-grid-single">
-                    <div class="chart-card chart-card-wide">
-                        <div class="chart-header">
-                            <h3 class="chart-title">📈 Monitoring Jadwal & Kehadiran Edukasi Harian</h3>
-                            <div class="chart-filter">
-                                <label for="attendanceSectionFilter">🏭 Section:</label>
-                                <select id="attendanceSectionFilter" onchange="updateAttendanceChart()">
-                                    <option value="comp-assy">Comp Assy</option>
-                                    <option value="comp-wclutch">Comp WClutch</option>
-                                </select>
-                                <label for="attendanceMonthFilter">📅 Filter Bulan:</label>
-                                <select id="attendanceMonthFilter" onchange="updateAttendanceChart()">
-                                    <option value="0">Januari</option>
-                                    <option value="1">Februari</option>
-                                    <option value="2">Maret</option>
-                                    <option value="3">April</option>
-                                    <option value="4">Mei</option>
-                                    <option value="5">Juni</option>
-                                    <option value="6">Juli</option>
-                                    <option value="7">Agustus</option>
-                                    <option value="8">September</option>
-                                    <option value="9">Oktober</option>
-                                    <option value="10">November</option>
-                                    <option value="11">Desember</option>
-                                </select>
-                                <label for="attendanceYearFilter">📅 Tahun:</label>
-                                <select id="attendanceYearFilter" onchange="updateAttendanceChart()">
-                                    <!-- Options will be populated by JavaScript -->
-                                </select>
-                            </div>
-                        </div>
-                        <canvas id="attendanceChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="content-section">
-                    <div class="section-header">
-                        <h2>Selamat Datang di MP Development System</h2>
-                    </div>
-                    <div class="table-container">
-                        <div style="text-align: center; padding: 40px; color: #7f8c8d;">
-                            <div style="font-size: 64px; margin-bottom: 20px;">🏭</div>
-                            <h3 style="color: #2c3e50; margin-bottom: 10px;">Sistem Manajemen Manpower</h3>
-                            <p style="margin-bottom: 20px;">Kelola data karyawan, recruitment, kontrak, dan program edukasi dengan mudah.</p>
-                            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                                <button class="btn btn-primary" onclick="document.querySelector('[data-section=database]').click()">
-                                    <span>👥</span> Kelola Karyawan
-                                </button>
-                                <button class="btn btn-success" onclick="document.querySelector('[data-section=recruitment]').click()">
-                                    <span>🎯</span> Recruitment
-                                </button>
-                                <button class="btn btn-warning" onclick="document.querySelector('[data-section=education]').click()">
-                                    <span>🎓</span> Program Edukasi
-                                </button>
-                            </div>
+                        
+                        <!-- Attendance Chart -->
+                        <div class="chart-section">
+                            <h2 class="section-title">📈 Monitoring Jadwal & Kehadiran</h2>
+                            <div class="charts-grid-single">
+                                <!-- Grafik 3: Monitoring Jadwal & Kehadiran Edukasi Harian -->
+                                <div class="chart-card chart-card-wide">
+                                    <div class="chart-header">
+                                        <h3 class="chart-title">📈 Monitoring Jadwal & Kehadiran Edukasi Harian</h3>
+                                        <div class="chart-filter">
+                                            <label for="attendanceMonthFilter">📅 Filter Bulan:</label>
+                                            <select id="attendanceMonthFilter" onchange="updateAttendanceChart()">
+                                                <option value="0">Januari</option>
+                                                <option value="1">Februari</option>
+                                                <option value="2">Maret</option>
+                                                <option value="3">April</option>
+                                                <option value="4">Mei</option>
+                                                <option value="5">Juni</option>
+                                                <option value="6">Juli</option>
+                                                <option value="7">Agustus</option>
+                                                <option value="8">September</option>
+                                                <option value="9">Oktober</option>
+                                                <option value="10">November</option>
+                                                <option value="11">Desember</option>
+                                            </select>
+                                            <label for="attendanceYearFilter">📅 Tahun:</label>
+                                            <select id="attendanceYearFilter" onchange="updateAttendanceChart()">
+                                                <!-- Options will be populated by JavaScript -->
+                                            </select>
+                                            <label for="attendanceSectionFilter">🏭 Section:</label>
+                                            <select id="attendanceSectionFilter" onchange="updateAttendanceChart()">
+                                                <option value="all">Semua Section</option>
+                                                <option value="Comp Assy">Comp Assy</option>
+                                                <option value="Comp WClutch">Comp WClutch</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <canvas id="attendanceChart"></canvas>
+                                </div>
                         </div>
                     </div>
-                </div>
             </section>
 
             <!-- Database MP Section -->
@@ -235,13 +248,13 @@
                             </button>
                         </div>
                         <div class="search-box">
-                            <input type="text" placeholder="Cari karyawan..." id="searchInput">
+                            <input type="text" placeholder="       Cari karyawan..." id="searchInput">
                         </div>
                     </div>
                     <table id="employeeTable">
                         <thead>
                             <tr>
-                                <th>NPK</th>
+                                <th class="sortable" onclick="toggleNPKSort()">NPK <span id="sort-indicator">↑</span></th>
                                 <th>Nama</th>
                                 <th>Gender</th>
                                 <th>Section</th>
@@ -250,6 +263,7 @@
                                 <th>Date In</th>
                                 <th>Status</th>
                                 <th>Tipe</th>
+                                <th>Function</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -266,18 +280,41 @@
                     <h2>📋 Data MP End Contract</h2>
                 </div>
                 <div class="table-container">
+                    <!-- Ganti struktur filter di tab End Contract (sekitar baris 285-310) -->
                     <div class="table-header">
-                        <button class="btn btn-primary" onclick="openModal('end-contract')">
-                            <span>+</span> Tambah End Contract
-                        </button>
+                        <button class="btn btn-primary" onclick="openEndContractModal()">+ Tambah Data</button>
+                        <div class="chart-filter">
+                            <label for="endContractMonthFilter">📅 Filter Bulan:</label>
+                            <select id="endContractMonthFilter" onchange="filterEndContractByMonth()">
+                                <option value="">Semua Bulan</option>
+                                <option value="01">Januari</option>
+                                <option value="02">Februari</option>
+                                <option value="03">Maret</option>
+                                <option value="04">April</option>
+                                <option value="05">Mei</option>
+                                <option value="06">Juni</option>
+                                <option value="07">Juli</option>
+                                <option value="08">Agustus</option>
+                                <option value="09">September</option>
+                                <option value="10">Oktober</option>
+                                <option value="11">November</option>
+                                <option value="12">Desember</option>
+                            </select>
+                            
+                            <label for="endContractYearFilter">📅 Filter Tahun:</label>
+                            <select id="endContractYearFilter" onchange="filterEndContractByMonth()">
+                                <option value="">Semua Tahun</option>
+                                <!-- Options akan diisi oleh JavaScript -->
+                            </select>
+                        </div>
                         <div class="search-box">
-                            <input type="text" placeholder="Cari data end contract...">
+                            <input type="text" placeholder="      Cari data end contract..." id="endContractSearchInput">
                         </div>
                     </div>
-                    <table>
+                    <table id="endContractTable">
                         <thead>
                             <tr>
-                                <th>NPK</th>
+                                <th class="sortable" onclick="toggleEndContractNPKSort()">NPK <span id="end-contract-sort-indicator">↑</span></th>
                                 <th>Nama</th>
                                 <th>Gender</th>
                                 <th>Section</th>
@@ -291,7 +328,7 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="endContractTableBody">
                             <!-- Data will be loaded from localStorage -->
                         </tbody>
                     </table>
@@ -305,23 +342,46 @@
     </div>
     <div class="table-container">
         <div class="table-header">
-            <button class="btn btn-primary" onclick="openModal('recruitment')">
-                <span>+</span> Tambah Kandidat
-            </button>
+            <div class="chart-filter">
+                <label for="recruitmentMonthFilter">📅 Filter Bulan:</label>
+                <select id="recruitmentMonthFilter" onchange="filterRecruitmentData()">
+                    <option value="all">Semua Bulan</option>
+                    <option value="01">Januari</option>
+                    <option value="02">Februari</option>
+                    <option value="03">Maret</option>
+                    <option value="04">April</option>
+                    <option value="05">Mei</option>
+                    <option value="06">Juni</option>
+                    <option value="07">Juli</option>
+                    <option value="08">Agustus</option>
+                    <option value="09">September</option>
+                    <option value="10">Oktober</option>
+                    <option value="11">November</option>
+                    <option value="12">Desember</option>
+                </select>
+                
+                <label for="recruitmentYearFilter">📆 Filter Tahun:</label>
+                <select id="recruitmentYearFilter" onchange="filterRecruitmentData()">
+                    <option value="all">Semua Tahun</option>
+                    <!-- Years will be populated by JavaScript -->
+                </select>
+            </div>
             <div class="search-box">
-                <input type="text" placeholder="Cari kandidat...">
+                <input type="text" id="recruitmentSearch" placeholder="      Cari kandidat..." onkeyup="filterRecruitmentData()">
             </div>
         </div>
 
         <table class="data-table">
             <thead>
                 <tr>
-                    <th rowspan="2">No</th>
-                    <th colspan="8" style="background-color: #3498db; color: white;">Data dari Database MP</th>
-                    <th colspan="3" style="background-color: #e67e22; color: white;">Data dari MP End</th>
+                    <th colspan="3" style="background-color: #e67e22; color: white;">Data dari MP End (Otomatis)</th>
+                    <th colspan="8" style="background-color: #3498db; color: white;">Data dari Database MP (Manual)</th>
                     <th rowspan="2">Actions</th>
                 </tr>
                 <tr>
+                    <th style="background-color: #fff8dc;">NPK</th>
+                    <th style="background-color: #fff8dc;">Nama</th>
+                    <th style="background-color: #fff8dc;">Date Out</th>
                     <th style="background-color: #f0f8ff;">NPK</th>
                     <th style="background-color: #f0f8ff;">Nama</th>
                     <th style="background-color: #f0f8ff;">Gender</th>
@@ -330,12 +390,9 @@
                     <th style="background-color: #f0f8ff;">Leader</th>
                     <th style="background-color: #f0f8ff;">Date In</th>
                     <th style="background-color: #f0f8ff;">Rekomendasi</th>
-                    <th style="background-color: #fff8dc;">NPK</th>
-                    <th style="background-color: #fff8dc;">Nama</th>
-                    <th style="background-color: #fff8dc;">Date Out</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="recruitmentTableBody">
                 <!-- Data will be loaded by JavaScript -->
             </tbody>
         </table>
@@ -347,12 +404,14 @@
                 <div class="section-header">
                     <h2>🎓 Data MP Edukasi</h2>
                     <div class="education-filter">
-                        <label for="educationTypeFilter">📋 Filter Program:</label>
-                        <select id="educationTypeFilter" onchange="filterEducationData()">
-                            <option value="all">Semua Program</option>
-                            <option value="new-mp">New MP</option>
-                            <option value="refresh-mp">Refresh MP</option>
-                            <option value="skill-up-mp">Skill Up MP</option>
+                        <label for="educationDateFilter">📅 Filter Tanggal:</label>
+                        <input type="date" id="educationDateFilter" onchange="filterEducationByDate()">
+                        <button class="btn btn-secondary" onclick="clearEducationDateFilter()">Clear</button>
+                        
+                        <label for="educationMonthYearFilter">📅 Filter Bulan:</label>
+                        <select id="educationMonthYearFilter" onchange="filterEducationByMonth()">
+                            <option value="all">Semua Periode</option>
+                            <!-- Options will be populated by JavaScript -->
                         </select>
                     </div>
                 </div>
@@ -362,7 +421,7 @@
                             <span>+</span> Tambah Program Edukasi
                         </button>
                         <div class="search-box">
-                            <input type="text" placeholder="Cari program edukasi...">
+                            <input type="text" placeholder="      Cari program edukasi...">
                         </div>
                     </div>
                     <table>
@@ -374,8 +433,8 @@
                                 <th>Section</th>
                                 <th>Line</th>
                                 <th>Leader</th>
+                                <th>Nama Pos</th>
                                 <th>Category</th>
-                                <th>Process</th>
                                 <th>Date Education</th>
                                 <th>Date Planning</th>
                                 <th>Raport</th>
@@ -413,10 +472,11 @@
                             <button class="btn btn-sm btn-secondary" onclick="setQuickDateFilter(7)">Minggu Depan</button>
                         </div>
                         <div class="search-box">
-                            <input type="text" id="scheduleSearchInput" placeholder="Cari jadwal edukasi..." onkeyup="searchEducationSchedule()">
+                            <input type="text" id="scheduleSearchInput" placeholder="        Cari jadwal edukasi..." onkeyup="searchEducationSchedule()">
                         </div>
                     </div>
                     <table>
+                        <!-- In education schedule section -->
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -426,8 +486,9 @@
                                 <th>Line</th>
                                 <th>Leader</th>
                                 <th>Category</th>
-                                <th>Proses</th>
-                                <th>Date Edukasi</th>
+                                <th>Nama Pos</th>
+                                <th>Date</th>
+                                <th>Time</th>
                                 <th>Status</th>
                                 <th>Note</th>
                             </tr>
@@ -436,6 +497,186 @@
                             <!-- Data will be loaded from localStorage -->
                         </tbody>
                     </table>
+                </div>
+            </section>
+            
+
+            <!-- Skill Matrix Section -->
+            <section id="skill-matrix-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2>📊 Skill Matrix</h2>
+                    <!-- Update section-controls di skill matrix -->
+                    <div class="section-controls">
+                        <div class="filter-group">
+                            <label for="skillMatrixModeSelect">Mode:</label>
+                            <select id="skillMatrixModeSelect" onchange="handleSkillMatrixModeChange()">
+                                <option value="comp-assy">Comp Assy (47 Skill)</option>
+                                <option value="comp-wclutch">Comp WClutch (12 Skill)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Line</label>
+                            <select id="skillMatrixLineFilter" onchange="filterSkillMatrixData()">
+                                <option value="all">Semua Line</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Cari MP</label>
+                            <input type="text" id="skillMatrixSearch" placeholder="Cari MP Assy atau MP WClutch..." oninput="smartSearchMP()">
+                        </div>
+                        <div class="filter-group button-group-horizontal">
+                            <button class="btn btn-primary" onclick="openSkillMatrixModal()">+ Tambah Evaluasi</button>
+                            <button class="btn btn-success" onclick="exportSkillMatrixToCSV()">
+                                <span>📊</span> Export CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-matrix-container">
+                    <table id="skillMatrixTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable" onclick="toggleSkillMatrixNPKSort()">NPK <span id="skill-matrix-sort-indicator">↑</span></th>
+                                <th>Nama</th>
+                                <th>Section</th>
+                                <th>Line</th>
+                                <th>Pos Saat Ini</th>
+                                <th>Mizusumashi Towing</th>
+                                <th>Mizusumashi Shaft</th>
+                                <th>Pre Check</th>
+                                <th>Part Washing Big Part (IN)</th>
+                                <th>Part Washing Inner Part (IN)</th>
+                                <th>Pass Room (Prepare Piston)</th>
+                                <th>Pass Room (Prepare Gasket) </th>
+                                <th>Prepare Thrust Bearing</th>
+                                <th>Prepare Oring PRV</th>
+                                <th>Bearing Assy</th>
+                                <th>Bushing Assy</th>
+                                <th>Mizusumashi Assy</th>
+                                <th>Part Washing Inner Part (OUT) LIP Seal Assy</th>
+                                <th>Part Washing Inner Part (OUT)</th>
+                                <th>PRV Assy</th>
+                                <th>Piston & Swash Measuring</th>
+                                <th>Shoe Selecting</th>
+                                <th>Cylinder Block Assy</th>
+                                <th>Shoe Clearance & Muffler Bolt</th>
+                                <th>QR Code Label Assy & Press Pin</th>
+                                <th>Frint Side Assy</th>
+                                <th>Front Houing Assy</th>
+                                <th>Rear Housing Assy</th>
+                                <th>Housing Bolt</th>
+                                <th>Bolt Tightening</th>
+                                <th>Concentricity Check & Torque Check</th>
+                                <th>Empty Weight & Dummy Assy</th>
+                                <th>Vacuum & Gas Charging</th>
+                                <th>Helium Leak Test</th>
+                                <th>High Pressure Check</th>
+                                <th>Performance Test</th>
+                                <th>Release Dummy</th>
+                                <th>Pre Oil & Oil Filling</th>
+                                <th>Seal Cap Assy</th>
+                                <th>Flange Assy</th>
+                                <th>Air Leak Test</th>
+                                <th>Gas Release</th>
+                                <th>Seal Cap Assy 2</th>
+                                <th>Final Washing</th>
+                                <th>Name Plate Assy</th>
+                                <th>Thermal Sensor</th>
+                                <th>Felt Assy</th>
+                                <th>Foot & Boshi Check</th>
+                                <th>Robot Final Check</th>
+                                <th>Taking & Laser Name Plate</th>
+                                <th>Repair Shoe Clearance</th>
+                                <th>Repair Dipping</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="skillMatrixTableBody">
+                            <!-- Data akan diisi oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            </section>
+            <script src="js/script.js"></script>
+            <script>
+                // Set browser info - tunggu sampai DOM ready
+                document.addEventListener('DOMContentLoaded', function() {
+                    const browserInfoElement = document.getElementById('browser-info');
+                    if (browserInfoElement) {
+                        browserInfoElement.textContent = navigator.userAgent.split(' ').pop();
+                    }
+                });
+            </script>
+            
+            <!-- Di bagian mapping section, hapus filter proses dan tambahkan charts -->
+            <section id="mapping-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2>🗺️ Mapping Manpower</h2>
+                </div>
+                
+                <!-- Tambahkan container untuk charts -->
+                <div class="charts-container" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); margin-bottom: 20px;">
+                    <div class="chart-row" style="display: flex; gap: 20px; align-items: stretch;">
+                        <!-- Comp Assy Chart - Left Side -->
+                        <div class="chart-item" style="flex: 1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                            <canvas id="mappingCompAssyChart" width="300" height="350"></canvas>
+                        </div>
+                        
+                        <!-- Comp WClutch Chart - Right Side -->
+                        <div class="chart-item" style="flex: 1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                            <canvas id="mappingCompWClutchChart" width="300" height="350"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <!-- Perbaiki struktur filter di mapping (sekitar baris 620-640) -->
+                    <div class="table-header">
+                        <div class="button-group">
+                            <button class="btn btn-success" onclick="exportMappingToCSV()">
+                                <span>📊</span> Export CSV
+                            </button>
+                            <div class="filter-group">
+                                <label for="mappingSectionFilter">🏭 Filter Section:</label>
+                                <select id="mappingSectionFilter" onchange="updateMappingLineFilter(); filterMappingData()">
+                                    <option value="">Semua Section</option>
+                                    <!-- Options akan diisi oleh JavaScript -->
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="mappingLineFilter">🔧 Filter Line:</label>
+                                <select id="mappingLineFilter" onchange="filterMappingData()">
+                                    <option value="">Semua Line</option>
+                                    <!-- Options akan diisi oleh JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="search-box">
+                            <input type="text" placeholder="       Cari data mapping..." id="mappingSearchInput" oninput="filterMappingData()">
+                        </div>
+                    </div>
+                    <table id="mappingTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th class="sortable" onclick="toggleMappingNPKSort()">NPK <span id="mapping-sort-indicator">↑</span></th>
+                                <th>Name</th>
+                                <th>Section</th>
+                                <th>Line</th>
+                                <th>Leader</th>
+                                <th>Proses</th>
+                                <th>Raport</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mappingTableBody">
+                            <!-- Data akan diisi oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination-container">
+                    <div id="mappingPagination" class="pagination"></div>
                 </div>
             </section>
 
@@ -593,14 +834,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p>MP Development Digital by A Alfin 2025</p>
-        </div>
+            <div class="footer-info">
+                <p>🏭 MP Development Management System By A Alfin 2025</p>
+            </div>
     </footer>
-
-    <script src="js/script.js"></script>
-    <script>
-        // Set browser info
-        document.getElementById('browser-info').textContent = navigator.userAgent.split(' ').pop();
-    </script>
-</body>
-</html>

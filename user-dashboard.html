@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP Development - User Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/user-style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="js/auth.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Simplified Sidebar for User -->
+        <nav class="sidebar">
+            <div class="logo">
+                <h2>MP Development</h2>
+                <p style="font-size: 12px; opacity: 0.8; margin-top: 5px;">User Dashboard</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" data-section="dashboard">
+                        <i>📊</i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="education-schedule">
+                        <i>📅</i> Jadwal Edukasi
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Statistics Cards -->
+            <section id="dashboard-section" class="content-section">
+                <div class="dashboard-grid">
+                    <div class="stat-card stat-card-blue">
+                        <h3>👥 Total Man Power Aktif</h3>
+                        <div class="number" id="totalEmployeesNumber">0</div>
+                        <div class="change">Total Karyawan Aktif</div>
+                    </div>
+                    <div class="stat-card stat-card-green">
+                        <h3>✅ MP End Contract</h3>
+                        <div class="number" id="endContractNumber">0</div>
+                        <div class="change">Bulan Ini</div>
+                    </div>
+                    <div class="stat-card stat-card-orange">
+                        <h3>📋 MP Recruitment</h3>
+                        <div class="number" id="recruitmentNumber">0</div>
+                        <div class="change">Bulan Ini</div>
+                    </div>
+                    <div class="stat-card stat-card-purple">
+                        <h3>🎯 MP Edukasi</h3>
+                        <div class="number" id="educationStatNumber">0</div>
+                        <div class="change">Bulan Ini</div>
+                    </div>
+                </div>
+
+                <!-- Charts for Monitoring -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">📊 Monitoring MP End Contract</h3>
+                            <div class="chart-filter">
+                                <label for="endContractYearFilter">📅 Filter Tahun:</label>
+                                <select id="endContractYearFilter" onchange="updateEndContractMonthlyChart()">
+                                    <!-- Options populated by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="endContractMonthlyChart"></canvas>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">🎓 Monitoring MP Edukasi</h3>
+                            <div class="chart-filter">
+                                <label for="educationYearFilter">📅 Filter Tahun:</label>
+                                <select id="educationYearFilter" onchange="updateEducationMonthlyChart()">
+                                    <!-- Options populated by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="educationMonthlyChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education Schedule Section -->
+            <section id="education-schedule-section" class="content-section hidden">
+                <div class="section-header">
+                    <h2>📅 Jadwal Edukasi Harian</h2>
+                </div>
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="filter-group">
+                            <div class="filter-item">
+                                <label for="scheduleMonthYearFilter">📅 Filter Periode:</label>
+                                <select id="scheduleMonthYearFilter" onchange="filterEducationSchedule()">
+                                    <option value="">Semua Periode</option>
+                                </select>
+                            </div>
+                            <div class="filter-item">
+                                <label for="scheduleDateFilter">📅 Filter Tanggal:</label>
+                                <input type="date" id="scheduleDateFilter" onchange="filterEducationScheduleByDate()">
+                            </div>
+                            <div class="filter-buttons">
+                                <button class="btn btn-sm btn-primary" onclick="filterTodaySchedule()">Hari Ini</button>
+                                <button class="btn btn-sm btn-secondary" onclick="filterTomorrowSchedule()">Besok</button>
+                                <button class="btn btn-sm btn-info" onclick="clearDateFilter()">Reset Filter</button>
+                            </div>
+                        </div>
+                        <div class="search-box">
+                            <input type="text" placeholder="Cari jadwal edukasi..." id="scheduleSearchInput" oninput="searchEducationSchedule()">
+                        </div>
+                    </div>
+                    <table id="educationScheduleTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NPK</th>
+                                <th>Name</th>
+                                <th>Section</th>
+                                <th>Line</th>
+                                <th>Leader</th>
+                                <th>Category</th>
+                                <th>Proses</th>
+                                <th>Date Edukasi</th>
+                                <th>Jam Sesi</th>
+                                <th>Status</th>
+                                <th>Note</th>
+                            </tr>
+                        </thead>
+                        <tbody id="educationScheduleTableBody">
+                            <!-- Data will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/user-script.js"></script>
+</body>
+</html>

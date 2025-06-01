@@ -1,0 +1,91 @@
+/* Additional styles for user dashboard */
+.info-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+    min-width: 150px;
+    margin: 10px;
+}
+
+.info-card h4 {
+    margin: 10px 0 5px 0;
+    color: #2c3e50;
+    font-size: 16px;
+}
+
+.info-card p {
+    margin: 0;
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+/* Footer styling */
+.footer {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 40px;
+    border-top: 3px solid #3498db;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+/* Responsive footer */
+@media (max-width: 768px) {
+    .footer {
+        padding: 12px 0;
+    }
+    
+    .footer p {
+        font-size: 12px;
+    }
+}
+
+/* Animation for counting numbers */
+@keyframes countUp {
+    from {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* User-specific sidebar styling */
+.sidebar .logo p {
+    color: #3498db;
+    font-weight: 500;
+}
+
+/* Responsive adjustments for user dashboard */
+@media (max-width: 768px) {
+    .info-card {
+        min-width: 120px;
+        padding: 15px;
+        margin: 5px;
+    }
+    
+    .info-card h4 {
+        font-size: 14px;
+    }
+    
+    .info-card p {
+        font-size: 12px;
+    }
+}
