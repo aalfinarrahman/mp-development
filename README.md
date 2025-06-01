@@ -261,7 +261,7 @@ script.js
    - Pastikan script.js ter-load
 
 ## 📞 Support
-
+Contact : Alfin - 085883070305
 Jika ada pertanyaan atau issue:
 1. Check dokumentasi ini terlebih dahulu
 2. Check browser console untuk error
